@@ -1,0 +1,9 @@
+1) Check in code on rpi 
+2) Clean up code on laptop
+3) Run once and log timing and improve timing such that exactly as wekker goes off light intensity is max
+
+Hardware:
+Wire up buttons
+implement first button to act as a light switch
+Order different I2C device to test I2C
+Connect clock to display time 
