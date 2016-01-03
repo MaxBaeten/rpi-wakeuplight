@@ -66,7 +66,7 @@ while True:
 		timert = datetime.datetime.now()
 		print timert.time()
 	else: 	
-		wiringpi.pwmWrite(PWM_PIN,0) 	
+		wiringpi.pwmWrite(PWM_PIN,0)
 		dawn = False;
 
 	time.sleep(30)
