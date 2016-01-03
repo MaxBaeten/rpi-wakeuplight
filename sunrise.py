@@ -5,31 +5,31 @@ import datetime
 import sys
 
 # String argument overwrite the time
-SUNRISE_START_TIME = "05:45"
-SUNRISE_START_TIME = sys.argv[1]
-SST_SPLIT = SUNRISE_START_TIME.split(":",2)
+WAKEUP_TIME_STR = sys.argv[1]
+WAKEUP_TIME_STR_SPLIT = WAKEUP_TIME_STR.split(":",2)
+WAKEUP_TIME_STR_HOUR = int(WAKEUP_TIME_STR_SPLIT[0])
+WAKEUP_TIME_STR_MINUTE = int(WAKEUP_TIME_STR_SPLIT[1])
 
-a = datetime.datetime(100,1,1,int(SST_SPLIT[0]),int(SST_SPLIT[1]),59)
-b = a - datetime.timedelta(0,20*60) # days, seconds, then other fields.
+WAKEUP_TIME_DT = datetime.datetime(100,1,1,WAKEUP_TIME_STR_HOUR,WAKEUP_TIME_STR_MINUTE,00)
+SUNRISE_START_DT = WAKEUP_TIME_DT - datetime.timedelta(0,20*60) # days, seconds, then other fields.
+WAKEUP_TIME_DT = WAKEUP_TIME_DT.time() 
+SUNRISE_START_DT = SUNRISE_START_DT.time()
 
-atime = a.time()
-btime = b.time()
-
-print atime
-print btime
+print WAKEUP_TIME_DT
+print SUNRISE_START_DT
 
 # GENERATE TIME STR FROM BTIME
-SUNRISE_TIME = ""
-if (btime.hour<2):
-	SUNRISE_TIME = "0";
-SUNRISE_TIME = SUNRISE_TIME + str(btime.hour)
+SUNRISE_START_STR = ""
+if (SUNRISE_START_DT.hour<2):
+	SUNRISE_START_STR = "0";
+SUNRISE_START_STR = SUNRISE_START_STR + str(SUNRISE_START_DT.hour)
 
-SUNRISE_TIME = SUNRISE_TIME + ":";
+SUNRISE_START_STR = SUNRISE_START_STR + ":";
 
-if (btime.minute<2):
-        SUNRISE_TIME = "0";
-SUNRISE_TIME = SUNRISE_TIME + str(btime.minute)
-print SUNRISE_TIME
+if (SUNRISE_START_DT.minute<2):
+        SUNRISE_START_STR = "0";
+SUNRISE_START_STR = SUNRISE_START_STR + str(SUNRISE_START_DT.minute)
+print SUNRISE_START_STR
 
 # Constants
 PWM_PIN = 18
@@ -48,7 +48,12 @@ def RiseAndShine():
 # Init 
 wiringpi.wiringPiSetupGpio()                    # set up GPIO numbering
 wiringpi.pinMode(PWM_PIN, 2)
-schedule.every().day.at(SUNRISE_TIME).do(RiseAndShine);
+schedule.every().monday.at(SUNRISE_START_STR).do(RiseAndShine);
+schedule.every().thuesday.at(SUNRISE_START_STR).do(RiseAndShine);
+schedule.every().wednesday.at(SUNRISE_START_STR).do(RiseAndShine);
+schedule.every().thursday.at(SUNRISE_START_STR).do(RiseAndShine);
+schedule.every().friday.at(SUNRISE_START_STR).do(RiseAndShine);
+
 			
 while True:
 	schedule.run_pending()
@@ -63,7 +68,6 @@ while True:
 	else: 	
 		wiringpi.pwmWrite(PWM_PIN,0) 	
 		dawn = False;
-		print "I hope you have woken since i am out of here"		
 
 	time.sleep(30)
 
