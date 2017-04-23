@@ -1,4 +1,4 @@
-import wiringpi2 as wiringpi
+import wiringpi as wiringpi
 import time
 import schedule
 import datetime
@@ -42,18 +42,17 @@ global dawn;
 dawn=False;
 
 def RiseAndShine():
-        global dawn;
-        dawn=True;
+	global dawn;
+	dawn=True;
 
 # Init 
 wiringpi.wiringPiSetupGpio()                    # set up GPIO numbering
 wiringpi.pinMode(PWM_PIN, 2)
 schedule.every().monday.at(SUNRISE_START_STR).do(RiseAndShine);
-schedule.every().thuesday.at(SUNRISE_START_STR).do(RiseAndShine);
+schedule.every().tuesday.at(SUNRISE_START_STR).do(RiseAndShine);
 schedule.every().wednesday.at(SUNRISE_START_STR).do(RiseAndShine);
 schedule.every().thursday.at(SUNRISE_START_STR).do(RiseAndShine);
 schedule.every().friday.at(SUNRISE_START_STR).do(RiseAndShine);
-
 			
 while True:
 	schedule.run_pending()
@@ -68,6 +67,7 @@ while True:
 	else: 	
 		wiringpi.pwmWrite(PWM_PIN,0)
 		dawn = False;
+		ii = 0;
 
 	time.sleep(30)
 
